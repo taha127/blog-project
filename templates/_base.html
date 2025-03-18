@@ -22,10 +22,24 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-link active" aria-current="page" href="#">Home</a>
-                <a class="nav-link" href="#">Blog</a>
+                <a class="nav-link" href={% url 'posts_list' %}>Blog</a>
+                <a class="nav-link" href={% url 'post_create' %}>Add new post</a>
             </div>
         </div>
-        <div class="mx-2 text-white">Welcome</div>
+        <div class="mx-2 text-white">
+            {% if user.is_authenticated %}
+                <div style="display: inline-block;">
+                    Welcome {{ user.username }}
+                </div>
+                <form action="{% url 'logout' %}" method="POST" style="display: inline-block;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+            {% else %}
+                <a class="text-light" href="{% url 'login' %}">Login</a> |
+                <a class="text-light" href="{% url 'signup' %}">Signup</a>
+            {% endif %}
+        </div>
     </div>
 </nav>
 
